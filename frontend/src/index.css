@@ -19,3 +19,13 @@ body, html{
     text-decoration: none;
 }
 
+.sessao-vendas{
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+
+#sessao-principal{
+    padding: 40px 10px;
+}
