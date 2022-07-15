@@ -10,19 +10,18 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_sales")
-public class sale {
+public class Sale {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id /*Faz com que o ID seja criado de forma unica*/
+	@GeneratedValue(strategy = GenerationType.IDENTITY) /*garente que o id sempre vai ter alteracoes*/
 	private Long id;
 	private String sellerName;
 	private Integer visited;
 	private Integer deals;	
 	private Double amount;
-	private LocalDate date;
+	private LocalDate date; 
 	
-	public sale() {
-		
+	public Sale() {	
 	}
 
 	public Long getId() {
