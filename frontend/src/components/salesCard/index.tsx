@@ -3,20 +3,24 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Sale } from "../../models/sale"
+import { BASE_URL } from "../../utils/request";
 import NotificationButton from '../notificationButton';
 import './style.css';
 
 
 function SalesCard() {
-    
+
     const [minDate, setMinDate] = useState(new Date());
     const [maxDate, setMaxDate] = useState(new Date());
 
+    const [sales, setSales] = useState<Sale[]>([]);
+
     useEffect(() => {
-        axios.get("http://localhost:8080/sales")
-             .then(response => {
-                console.log(response.data);
-             });
+        axios.get(`${BASE_URL}/sales`)
+            .then(response => {
+                setSales(response.data.content);
+            });
     }, []);
 
     return (
@@ -24,20 +28,20 @@ function SalesCard() {
             <h2>Vendas</h2>
             <div>
                 <div className="dsmeta-form-control-container">
-                <DatePicker
-                    selected={minDate}
-                    onChange={(date: Date) => setMinDate(date)}
-                    className="dsmeta-form-control"
-                    dateFormat="dd/MM/yyyy"
-                />
+                    <DatePicker
+                        selected={minDate}
+                        onChange={(date: Date) => setMinDate(date)}
+                        className="dsmeta-form-control"
+                        dateFormat="dd/MM/yyyy"
+                    />
                 </div>
                 <div className="dsmeta-form-control-container">
-                <DatePicker
-                    selected={maxDate}
-                    onChange={(date: Date) => setMaxDate(date)}
-                    className="dsmeta-form-control"
-                    dateFormat="dd/MM/yyyy"
-                />
+                    <DatePicker
+                        selected={maxDate}
+                        onChange={(date: Date) => setMaxDate(date)}
+                        className="dsmeta-form-control"
+                        dateFormat="dd/MM/yyyy"
+                    />
                 </div>
             </div>
 
@@ -58,99 +62,26 @@ function SalesCard() {
                         </tr>
                     </thead>
                     <tbody>
+                        {sales.map(sale => {
+                            return (
+                                <tr key={sale.id}>
+                                    <td className="show-all">{sale.id}</td>
+                                    <td className="show-data">{new Date(sale.date).toLocaleDateString()}</td>
+                                    <td>
+                                        { sale.sellerName }
+                                    </td>
+                                    <td className="show-all">{sale.visited}</td>
+                                    <td className="show-all">{sale.deals}</td>
+                                    <td>R$ {sale.amount.toFixed(2)}</td>
+                                    <td>
+                                        <div className="dsmeta-red-btn-container">
+                                            <NotificationButton />
+                                        </div>
+                                    </td>
 
-                        <tr>
-                            <td className="show-all">#341</td>
-                            <td className="show-data">09/07/2022</td>
-                            <td>Anakin</td>
-                            <td className="show-all">18</td>
-                            <td className="show-all">11</td>
-                            <td>R$9000.00</td>
-                            <td>
-                            <div className="dsmeta-red-btn-container">
-                                    <NotificationButton />
-                            </div>
-                        </td>
-
-                        </tr>
-                        <tr>
-                            <td className="show-all">#341</td>
-                            <td className="show-data">09/07/2022</td>
-                            <td>Anakin</td>
-                            <td className="show-all">18</td>
-                            <td className="show-all">11</td>
-                            <td>R$9000.00</td>
-                            <td>
-                            <div className="dsmeta-red-btn-container">
-                                    <NotificationButton />
-                            </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="show-all">#341</td>
-                            <td className="show-data">09/07/2022</td>
-                            <td>Anakin</td>
-                            <td className="show-all">18</td>
-                            <td className="show-all">11</td>
-                            <td>R$9000.00</td>
-                            <td>
-                                <div className="dsmeta-red-btn-container">
-                                    <NotificationButton />
-                            </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="show-all">#341</td>
-                            <td className="show-data">09/07/2022</td>
-                            <td>Anakin</td>
-                            <td className="show-all">18</td>
-                            <td className="show-all">11</td>
-                            <td>R$9000.00</td>
-                            <td>
-                                <div className="dsmeta-red-btn-container">
-                                    <NotificationButton />
-                            </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="show-all">#341</td>
-                            <td className="show-data">09/07/2022</td>
-                            <td>Anakin</td>
-                            <td className="show-all">18</td>
-                            <td className="show-all">11</td>
-                            <td>R$9000.00</td>
-                            <td>
-                                <div className="dsmeta-red-btn-container">
-                                    <NotificationButton />
-                            </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="show-all">#341</td>
-                            <td className="show-data">09/07/2022</td>
-                            <td>Anakin</td>
-                            <td className="show-all">18</td>
-                            <td className="show-all">11</td>
-                            <td>R$9000.00</td>
-                            <td>
-                                <div className="dsmeta-red-btn-container">
-                                    <NotificationButton />
-                            </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="show-all">#341</td>
-                            <td className="show-data">09/07/2022</td>
-                            <td>Anakin</td>
-                            <td className="show-all">18</td>
-                            <td className="show-all">11</td>
-                            <td>R$9000.00</td>
-                            <td>
-                                <div className="dsmeta-red-btn-container">
-                                    <NotificationButton />
-                            </div>
-                            </td>
-                        </tr>
+                                </tr>
+                            )
+                        })}
                     </tbody>
 
 
